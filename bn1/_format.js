@@ -11,20 +11,20 @@ export function formatBytes(bytes, decimals = 2) {
 }
 
 export function formatNumber(num, digits = 3) {
-	return Intl.NumberFormat('en-US', {
-		notation: "compact",
-		maximumFractionDigits: digits
-	}).format(num).toLowerCase();
+    return Intl.NumberFormat('en-US', {
+        notation: "compact",
+        maximumFractionDigits: digits
+    }).format(num).toLowerCase();
 }
 
 export function formatTime(time, digits = 3) {
-	return Intl.DateTimeFormat('default', {
-		hour: 'numeric',
-		minute: '2-digit',
-		second: '2-digit',
-		fractionalSecondDigits: digits,
-		hour12: false
-	}).format(time)
+    return Intl.DateTimeFormat('default', {
+        hour: 'numeric',
+        minute: '2-digit',
+        second: '2-digit',
+        fractionalSecondDigits: digits,
+        hour12: false
+    }).format(time)
 }
 
 /** @param {NS} ns **/
