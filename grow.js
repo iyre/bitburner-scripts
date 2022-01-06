@@ -8,7 +8,7 @@ export async function main(ns) {
 
     if (debug > 0) ns.tprintf(`SUCCESS ${target} ${(""+instance).padStart(3, " ")} ${method.padEnd(7, " ")} ${parseInt(time)} ${parseInt(Date.now())}`);
 
-    await ns.hack(target);
+    await ns.grow(target);
 
     if (debug >= 0) ns.tprintf(`WARN    ${target} ${(""+instance).padStart(3, " ")} ${method.padEnd(7, " ")} ${parseInt(time)} ${parseInt(Date.now())}`);
 }

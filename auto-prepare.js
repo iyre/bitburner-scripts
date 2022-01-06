@@ -1,11 +1,11 @@
 import * as f from "./_format.js";
-import {listServers} from "./_util.js";
+import {getServerObjects} from "./_util.js";
 
 /** @param {NS} ns **/
 export async function main(ns) {
     ns.disableLog('ALL');
     const source = ns.getServer(ns.getHostname());
-    const targets = listServers(ns, "money");
+    const targets = getServerObjects(ns, "money");
     const memoryRatio = 0.75; //how close to max memory should we get
     const timingGap = 1; //gap between operations (ms)
 

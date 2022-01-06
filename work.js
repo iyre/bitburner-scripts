@@ -3,11 +3,12 @@
 
 /** @param {NS} ns **/
 export async function main(ns) {
-    const [target, method, time] = ns.args;
+    const [instance, target, method, time] = ns.args;
 
     if (time) await ns.sleep(time - Date.now());
-
+    // ns.tprint("start ", [target, (""+instance).padStart(3), method.padEnd(7, " "), time.toFixed(0), Date.now()]);
     await ns[method](`${target}`);
+    // ns.tprint("end   ", [target, (""+instance).padStart(3), method.padEnd(7, " "), time.toFixed(0), Date.now()]);
 }
 
 //this part is necessary to get the correct static memory value.

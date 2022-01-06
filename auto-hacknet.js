@@ -8,7 +8,7 @@ export async function main(ns) {
         ns.hacknet.upgradeLevel(n, 200);
         ns.hacknet.upgradeRam(n, 64);
         ns.hacknet.upgradeCore(n, 16);
-        ns.print(`outfitted note ${n}`)
+        // ns.print(`outfitted node ${n}`);
     }
 
     for (var i = 0; i < node; i++) outfitNode(i);

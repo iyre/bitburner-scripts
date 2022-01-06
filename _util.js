@@ -1,24 +1,11 @@
 /**
  * Returns an array containing all known servers as objects
  * @param {NS} ns
- * @param {string} [type="money"] Type of servers to include. Valid options include: "all", "slave", "faction", "money"
- * @param {string} [sort="money"] Sort column. Valid options include: "skill", "name", "ram", "money"
+ * @param {string} [type="hack"] Type of servers to include. Valid options include: "all", "faction", "hack", "slave"
+ * @param {string} [sort="money"] Sort column. Valid options include: "money", "name", "ram", "skill"
  * @returns {[Server]}
 **/
 export function getServerObjects(ns, type, sort) {
-    // let result = [];
-    // let visited = {"home": true};
-    // let queue = ["home"];
-    // let current;
-    // while (current = queue.pop()) {
-    // 	ns.scan(current).forEach(neighbor => {
-    // 		if (!visited[neighbor]) {
-    // 			queue.push(neighbor);
-    // 			visited[neighbor] = true;
-    // 			result.push(ns.getServer(neighbor));
-    // 		}
-    // 	});
-    // }
     let hostnames = getServerHostnames(ns);
     let result = [];
     hostnames.forEach(hostname => { result.push(ns.getServer(hostname)); });
@@ -28,12 +15,13 @@ export function getServerObjects(ns, type, sort) {
             break;
         case "slave":
             result = result.filter(s => s.hasAdminRights && s.maxRam >= 8);
+            result = result.filter(s => s.hostname != "home");
             break;
         case "faction":
             result = result.filter(s => s.hackDifficulty == 0); //faction servers
             break;
-        case "money":
-        default: //all
+        case "hack":
+        default:
             let playerHackingSkill = ns.getHackingLevel();
             result = result.filter(s => s.requiredHackingSkill <= playerHackingSkill);
             result = result.filter(s => !s.purchasedByPlayer);
@@ -102,8 +90,9 @@ export function getDistributedCapacity(ns) {
     var memoryPoolAvailable = 0;
     servers.forEach(server => {
         memoryPoolMax += server.maxRam;
-        memoryPoolAvailable += (server.maxRam - ns.getServerRamUsed(server.hostname));
+        memoryPoolAvailable += (server.maxRam - ns.getServerUsedRam(server.hostname));
     });
+    // ns.tprint([memoryPoolMax, memoryPoolAvailable]);
     return [memoryPoolMax, memoryPoolAvailable];
 }
 

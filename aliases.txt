@@ -1,0 +1,5 @@
+alias a="run auto.js"
+alias s="run stats.js"
+alias d="run d-control.js"
+alias connect="run connect.js ''"
+alias bd="run connect.js bd"

@@ -1,4 +1,4 @@
-import {getServerListHostname} from "./_util.js"
+import {getServerHostnames} from "./_util.js"
 
 export function crackServer(ns, target) {
     var exploitCount = 0;
@@ -8,19 +8,26 @@ export function crackServer(ns, target) {
     if (files.includes("relaySMTP.exe")) { ns.relaysmtp(target); exploitCount++; }
     if (files.includes("HTTPWorm.exe")) { ns.httpworm(target); exploitCount++; }
     if (files.includes("SQLInject.exe")) { ns.sqlinject(target); exploitCount++; }
-    if (ns.getServerNumPortsRequired(target) <= exploitCount) {ns.nuke(target);} //0.10GB, 0.05GB
+    if (ns.getServerNumPortsRequired(target) <= exploitCount) { ns.nuke(target); return 1; } //0.10GB, 0.05GB
+    return 0;
 }
 
 /** @param {NS} ns **/
 export async function main(ns) {
+    let servers = getServerHostnames(ns);
     do {
-        let servers = getServerListHostname(ns);
-        for (const server of servers) {
-            if (! ns.hasRootAccess(server)) { //0.05GB
-                crackServer(ns, server);
+        for (var i = 0; i < servers.length; i++) {
+            ns.print(servers[i], " ", ns.hasRootAccess(servers[i]));
+            if (! ns.hasRootAccess(servers[i])) { //0.05GB
+                if (crackServer(ns, servers[i])) {
+                    ns.run("push.js", 1, servers[i]);
+                }
             }
-            await ns.scp("work.js", "home", server);
+            else {
+                servers.splice(i, 1); //remove the cracked server
+                i--; //decrement i after splice
+            }
         }
-        await ns.sleep(30000);
-    } while (!ns.args[0]); //only run once if there are any arguments
+        await ns.sleep(10000);
+    } while (!ns.args[0] && servers.length > 0); //only run once if there are any arguments
 }

@@ -1,12 +1,12 @@
 import {mapNetwork} from "./_util.js"
 
 /* faction servers
-    CSEC			cybersec
-    avmnite-02h		nitesec
-    I.I.I.I			the black hand
-    .				the dark army
-    run4theh111z	bitrunners
-    The-Cave		daedalus
+    CSEC            cybersec
+    avmnite-02h     nitesec
+    I.I.I.I         the black hand
+    .               the dark army
+    run4theh111z    bitrunners
+    The-Cave        daedalus
     w0r1d_d43m0n
 */
 
